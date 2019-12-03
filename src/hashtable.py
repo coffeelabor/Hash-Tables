@@ -16,6 +16,7 @@ class HashTable:
         self.capacity = capacity  # Number of buckets in the hash table
         self.storage = [None] * capacity
 
+        #Might need to add self.count to track table load and resize as needed
 
     def _hash(self, key):
         '''
@@ -26,13 +27,13 @@ class HashTable:
         return hash(key)
 
 
-    # def _hash_djb2(self, key):
-    #     '''
-    #     Hash an arbitrary key using DJB2 hash
+    def _hash_djb2(self, key):
+        '''
+        Hash an arbitrary key using DJB2 hash
 
-    #     OPTIONAL STRETCH: Research and implement DJB2
-    #     '''
-    #     pass
+        OPTIONAL STRETCH: Research and implement DJB2
+        '''
+        pass
 
 
     def _hash_mod(self, key):
@@ -56,8 +57,13 @@ class HashTable:
         # If the index is > than the count (might need to add count) then Error out of rang
         # Somehow use the key as the index of where to insert the value (hashed key I think)
         key_index = self._hash_mod(key)
-        print(f"key_index {key_index}")
+        # print(f"key_index {key_index}")
 
+        if self.storage[key_index] is not None:
+            print(f"O no: Overwriting data at {key_index}")
+
+        # self.storage[key_index] = value
+        self.storage[key_index] = LinkedPair(key, value)
 
     def remove(self, key):
         '''
@@ -67,7 +73,11 @@ class HashTable:
 
         Fill this in.
         '''
-        pass
+        key_index = self._hash_mod(key)
+        if self.storage[key_index] is None:
+            print(f'warning if the key is not found')
+            return
+        self.storage[key_index] = None
 
 
     def retrieve(self, key):
@@ -78,9 +88,16 @@ class HashTable:
 
         Fill this in.
         '''
-        pass
+        key_index = self._hash_mod(key)
 
-
+        if self.storage[key_index] is not None:
+            if self.storage[key_index].key == key:
+                return self.storage[key_index].value
+            else:
+                print(f'Bruh what are you doing: Key doesnt match')
+                return None
+        else:
+            return None
     def resize(self):
         '''
         Doubles the capacity of the hash table and
@@ -88,7 +105,18 @@ class HashTable:
 
         Fill this in.
         '''
-        pass
+        self.capacity *= 2
+        new_storage = [None] * self.capacity
+
+        # for i in range(self.count):
+        #     new_storage[i] = self.storage[i]
+        for bucket_item in self.storage:
+            # new_storage[]
+            if bucket_item is not None:
+                new_index = self._hash_mod(bucket_item.key)
+                new_storage[new_index] = LinkedPair(bucket_item.key, bucket_item.value)
+
+        self.storage = new_storage
 
 
 
