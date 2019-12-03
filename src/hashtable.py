@@ -26,13 +26,13 @@ class HashTable:
         return hash(key)
 
 
-    def _hash_djb2(self, key):
-        '''
-        Hash an arbitrary key using DJB2 hash
+    # def _hash_djb2(self, key):
+    #     '''
+    #     Hash an arbitrary key using DJB2 hash
 
-        OPTIONAL STRETCH: Research and implement DJB2
-        '''
-        pass
+    #     OPTIONAL STRETCH: Research and implement DJB2
+    #     '''
+    #     pass
 
 
     def _hash_mod(self, key):
@@ -51,8 +51,12 @@ class HashTable:
 
         Fill this in.
         '''
-        pass
-
+        # I need to put the key at an index in the array
+        #I need to check if the hashTable is full.  Maybe use that double_size from lecture
+        # If the index is > than the count (might need to add count) then Error out of rang
+        # Somehow use the key as the index of where to insert the value (hashed key I think)
+        key_index = self._hash_mod(key)
+        print(f"key_index {key_index}")
 
 
     def remove(self, key):
