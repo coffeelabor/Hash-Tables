@@ -1,6 +1,7 @@
 # '''
 # Linked List hash table key/value pair
 # '''
+
 class LinkedPair:
     def __init__(self, key, value):
         self.key = key
@@ -56,14 +57,28 @@ class HashTable:
         #I need to check if the hashTable is full.  Maybe use that double_size from lecture
         # If the index is > than the count (might need to add count) then Error out of rang
         # Somehow use the key as the index of where to insert the value (hashed key I think)
-        key_index = self._hash_mod(key)
         # print(f"key_index {key_index}")
-
-        if self.storage[key_index] is not None:
-            print(f"O no: Overwriting data at {key_index}")
-
+        
+        # if self.storage[key_index] is not None:
+        #     print(f"O no: Overwriting data at {key_index}")
+            # self.resize()
         # self.storage[key_index] = value
-        self.storage[key_index] = LinkedPair(key, value)
+        # self.storage[key_index] = LinkedPair(key, value)
+        key_index = self._hash_mod(key)
+
+        current_pair = self.storage[key_index]
+        last_pair = None
+
+        while current_pair is not None and current_pair.key != key:
+            last_pair = current_pair
+            current_pair = last_pair.next
+
+        if current_pair is not None:
+            current_pair.value = value
+        else:
+            new_pair = LinkedPair(key, value)
+            new_pair.next = self.storage[key_index]
+            self.storage[key_index] = new_pair
 
     def remove(self, key):
         '''
@@ -75,7 +90,7 @@ class HashTable:
         '''
         key_index = self._hash_mod(key)
         if self.storage[key_index] is None:
-            print(f'warning if the key is not found')
+            # print(f'warning if the key is not found')
             return
         self.storage[key_index] = None
 
@@ -90,14 +105,21 @@ class HashTable:
         '''
         key_index = self._hash_mod(key)
 
-        if self.storage[key_index] is not None:
-            if self.storage[key_index].key == key:
-                return self.storage[key_index].value
-            else:
-                print(f'Bruh what are you doing: Key doesnt match')
-                return None
-        else:
-            return None
+        current_pair = self.storage[key_index]
+
+        while current_pair is not None:
+            if(current_pair.key == key):
+                return current_pair.value
+            current_pair = current_pair.next
+
+        # if self.storage[key_index] is not None:
+        #     if self.storage[key_index].key == key:
+        #         return self.storage[key_index].value
+        #     else:
+        #         # print(f'Bruh what are you doing: Key doesnt match')
+        #         return None
+        # else:
+        #     return None
     def resize(self):
         '''
         Doubles the capacity of the hash table and
@@ -105,19 +127,28 @@ class HashTable:
 
         Fill this in.
         '''
-        self.capacity *= 2
-        new_storage = [None] * self.capacity
+        # self.capacity *= 2
+        # new_storage = [None] * self.capacity
 
-        # for i in range(self.count):
-        #     new_storage[i] = self.storage[i]
-        for bucket_item in self.storage:
-            # new_storage[]
-            if bucket_item is not None:
-                new_index = self._hash_mod(bucket_item.key)
-                new_storage[new_index] = LinkedPair(bucket_item.key, bucket_item.value)
+        # # for i in range(self.count):
+        # #     new_storage[i] = self.storage[i]
+        # for bucket_item in self.storage:
+        #     # new_storage[]
+        #     if bucket_item is not None:
+        #         new_index = self._hash_mod(bucket_item.key)
+        #         new_storage[new_index] = LinkedPair(bucket_item.key, bucket_item.value)
 
-        self.storage = new_storage
+        # self.storage = new_storage
 
+        old_storage = self.storage
+        self.capacity = 2 * self.capacity
+        self.storage = [None] * self.capacity
+        current_pair = None
+        for bucket_item in old_storage:
+            current_pair = bucket_item
+            while current_pair is not None:
+                self.insert(current_pair.key, current_pair.value)
+                current_pair = current_pair.next
 
 
 if __name__ == "__main__":
