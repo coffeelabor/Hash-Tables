@@ -155,3 +155,71 @@ if __name__ == "__main__":
     print(ht.retrieve("line_3"))
 
     print("")
+
+
+
+# ##################################################
+'''
+ def insert(self, key, value):
+        
+    # Store the value with the given key.
+
+    # Hash collisions should be handled with Linked List Chaining.
+
+    # Fill this in.
+    
+    index = self._hash_mod(key)
+
+    if self.storage[index] != None:
+        print(f"Warning: collsion has occured at {index}")
+
+        return
+    
+    else: 
+        self.storage[index] = (key, value)
+        return
+    
+    return
+
+# check this again, might of missed something
+def remove(self, key):
+
+    index = self._hash_mod(key)
+    if self.storage[index] != None:
+        if self.storage[index][0] == key:
+            self.storage[index] = None
+        else:
+            print(f"Waring: Collision has occured at {index})
+
+        return
+    
+    else: 
+        print(f"Waring key({key}) not found)
+    
+    return
+
+# check this again, might of missed something
+def retrieve(self, key):
+    index = self._hash_mod(key)
+    if self.storage[index] != None:
+        if self.storage[index][0] == key:
+            reutrn self.storage[index][1] = None
+        else:
+            print(f"Waring: Collision has occured at {index})
+
+        return
+    
+    else: 
+        return none
+    
+    return
+
+def resize(self):
+      
+    old_storage = self.storage
+    self.capacity = 2 * self.capacity
+    self.storage = [None] * self.capacity
+    current_pair = None
+    for old_item in old_storage:
+        self.insert(item[0], item[1])
+'''
