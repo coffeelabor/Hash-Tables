@@ -51,7 +51,31 @@ class HashTable:
 
         Fill this in.
         '''
-        pass
+
+        key_index = self._hash_mod(key)
+        print('key_index in insert', key_index)
+        current_pair = self.storage[key_index]
+        print('current_pair in insert', current_pair)
+        last_pair = None
+        print('last_pair in inser', last_pair)
+
+        while current_pair != None and current_pair.key != key:
+            print('current_pair in insert/while', current_pair)
+            last_pair = current_pair
+            print('last_pair in insert/while', last_pair)
+            current_pair = last_pair.next
+            print('current_pair in insert/while.next', current_pair)
+        
+        if current_pair != None:
+            current_pair.value = value
+            print('current_pair in insert/if', current_pair.value)
+        
+        else:
+            temp = LinkedPair(key, value)
+            print('temp in inser/else', temp)
+            temp.next = self.storage[key_index]
+            self.storage[key_index] = temp
+            print('self.storage in inser/else', self.storage[key_index])
 
 
 
@@ -74,7 +98,14 @@ class HashTable:
 
         Fill this in.
         '''
-        pass
+        key_index = self._hash_mod(key)
+
+        current_pair = self.storage[key_index]
+
+        while current_pair != None:
+            if(current_pair.key == key):
+                return current_pair.value
+            current_pair = current_pair.next
 
 
     def resize(self):
@@ -84,7 +115,16 @@ class HashTable:
 
         Fill this in.
         '''
-        pass
+        old_storage = self.storage
+        self.capacity = 2 * self.capacity
+        self.storage = [None] * self.capacity
+        current_pair = None
+        for old_item in old_storage:
+            current_pair = old_item
+            while current_pair != None:
+                self.insert(current_pair.key, current_pair.value)
+                current_pair = current_pair.next
+
 
 
 
