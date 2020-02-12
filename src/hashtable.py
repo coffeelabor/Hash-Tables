@@ -51,31 +51,31 @@ class HashTable:
 
         Fill this in.
         '''
-
+        # Set a variable to hash the key
         key_index = self._hash_mod(key)
         print('key_index in insert', key_index)
         current_pair = self.storage[key_index]
-        print('current_pair in insert', current_pair)
+        # print('current_pair in insert', current_pair)
         last_pair = None
-        print('last_pair in inser', last_pair)
+        # print('last_pair in inser', last_pair)
 
         while current_pair != None and current_pair.key != key:
-            print('current_pair in insert/while', current_pair)
+            # print('current_pair in insert/while', current_pair)
             last_pair = current_pair
-            print('last_pair in insert/while', last_pair)
+            # print('last_pair in insert/while', last_pair)
             current_pair = last_pair.next
-            print('current_pair in insert/while.next', current_pair)
+            # print('current_pair in insert/while.next', current_pair)
         
         if current_pair != None:
             current_pair.value = value
-            print('current_pair in insert/if', current_pair.value)
+            # print('current_pair in insert/if', current_pair.value)
         
         else:
             temp = LinkedPair(key, value)
-            print('temp in inser/else', temp)
+            # print('temp in inser/else', temp)
             temp.next = self.storage[key_index]
             self.storage[key_index] = temp
-            print('self.storage in inser/else', self.storage[key_index])
+            # print('self.storage in inser/else', self.storage[key_index])
 
 
 
@@ -87,7 +87,10 @@ class HashTable:
 
         Fill this in.
         '''
-        pass
+        key_index = self._hash_mod(key)
+        if self.storage[key_index] is None:
+            return
+        self.storage[key_index] = None
 
 
     def retrieve(self, key):
